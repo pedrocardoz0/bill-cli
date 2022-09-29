@@ -12,20 +12,40 @@ impl Bill {
     }
 }
 
-pub fn add() {
-    println!("Adding bill");
+fn clear() {
+    print!("\x1B[2J\x1B[1;1H");
+}
+
+pub fn add() -> Bill {
+    clear();
+    println!("= Adding bill =");
+
+    let mut buffer_name = String::new();
+    let mut buffer_amout = String::new();
+
+    println!("Name:");
+    io::stdin().read_line(&mut buffer_name).unwrap();
+
+    println!("Amount:");
+    io::stdin().read_line(&mut buffer_amout).unwrap();
+
+    let amount: f64 = buffer_amout.trim().parse::<f64>().unwrap();
+    dbg!(&amount);
+    Bill::new(buffer_name, amount)
 }
 
 pub fn remove() {
+    clear();
     println!("Removing bill");
 }
 
 pub fn edit() {
+    clear();
     println!("Editing bill");
 }
 
 pub fn display_menu() {
-    print!("\x1B[2J\x1B[1;1H");
+    clear();
     println!("== Manage Bills ==");
     println!("1. Add bill");
     println!("2. View bills");
