@@ -1,5 +1,5 @@
 use bill::{add, display_menu, get_input, remove, Bill};
-use std::{thread, time::Duration};
+use std::{io, thread, time::Duration};
 
 fn main() {
     let mut bills: Vec<Bill> = Vec::new();
@@ -28,24 +28,18 @@ fn main() {
 
         if input_choice == 3 {
             println!("== Removing ==");
-            let id = remove();
 
-            let index = bills
-                .iter()
-                .position(|item| item.id == id)
-                .expect("No item at this ID");
+            match remove(&mut bills) {
+                Ok(_) => println!("Removed!"),
+                Err(_) => println!("Not removed!"),
+            };
 
-            println!("Removing...");
             thread::sleep(Duration::from_millis(4000));
-            bills.remove(index);
         }
 
-        println!("input_choice >> {:?}", input_choice);
-
-        let bill = Bill::new(1, "s".to_owned(), 23.9);
-
-        println!("{:?}", bill);
-
-        println!("{:?}", input_data);
+        if input_choice == 4 {
+            println!("== Editing ==");
+            println!("ID:");
+        }
     }
 }

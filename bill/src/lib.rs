@@ -41,7 +41,7 @@ pub fn add(len: usize) -> Bill {
     )
 }
 
-pub fn remove() -> usize {
+pub fn remove(bills: &mut Vec<Bill>) -> Result<bool, String> {
     clear();
     println!("Removing bill");
 
@@ -50,12 +50,36 @@ pub fn remove() -> usize {
     println!("ID:");
     io::stdin().read_line(&mut buffer_id).unwrap();
 
-    buffer_id.trim().parse().unwrap()
+    let id = match buffer_id.trim().parse::<usize>() {
+        Ok(result) => Some(result),
+        Err(_) => None,
+    };
+
+    let id = match id {
+        Some(_id) => _id,
+        None => 0,
+    };
+
+    let index: isize = match bills.iter().position(|item| item.id == id) {
+        Some(_index) => _index.try_into().unwrap(),
+        None => -1,
+    };
+
+    if index > -1 {
+        let _ = &bills.remove(index.try_into().unwrap());
+        Ok(true)
+    } else {
+        Err("faild".to_string())
+    }
 }
 
 pub fn edit() {
     clear();
     println!("Editing bill");
+
+    let mut buffer_id = String::new();
+
+    println!("ID:");
 }
 
 pub fn display_menu() {
