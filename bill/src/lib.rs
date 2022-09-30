@@ -2,13 +2,14 @@ use std::io;
 
 #[derive(Debug)]
 pub struct Bill {
-    name: String,
-    amount: f64,
+    pub id: usize,
+    pub name: String,
+    pub amount: f64,
 }
 
 impl Bill {
-    pub fn new(name: String, amount: f64) -> Self {
-        Self { name, amount }
+    pub fn new(id: usize, name: String, amount: f64) -> Self {
+        Self { id, name, amount }
     }
 }
 
@@ -16,7 +17,7 @@ fn clear() {
     print!("\x1B[2J\x1B[1;1H");
 }
 
-pub fn add() -> Bill {
+pub fn add(len: usize) -> Bill {
     clear();
     println!("= Adding bill =");
 
@@ -30,13 +31,26 @@ pub fn add() -> Bill {
     io::stdin().read_line(&mut buffer_amout).unwrap();
 
     let amount: f64 = buffer_amout.trim().parse::<f64>().unwrap();
-    dbg!(&amount);
-    Bill::new(buffer_name, amount)
+
+    let id = (len + 1);
+
+    Bill::new(
+        id.try_into().unwrap(),
+        buffer_name.trim().to_string(),
+        amount,
+    )
 }
 
-pub fn remove() {
+pub fn remove() -> usize {
     clear();
     println!("Removing bill");
+
+    let mut buffer_id = String::new();
+
+    println!("ID:");
+    io::stdin().read_line(&mut buffer_id).unwrap();
+
+    buffer_id.trim().parse().unwrap()
 }
 
 pub fn edit() {
