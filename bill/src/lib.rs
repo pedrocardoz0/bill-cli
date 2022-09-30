@@ -73,13 +73,38 @@ pub fn remove(bills: &mut Vec<Bill>) -> Result<bool, String> {
     }
 }
 
-pub fn edit() {
+pub fn edit(bills: &mut Vec<Bill>) -> Result<bool, String> {
     clear();
     println!("Editing bill");
 
     let mut buffer_id = String::new();
 
     println!("ID:");
+    io::stdin().read_line(&mut buffer_id).unwrap();
+
+    let id = match buffer_id.trim().parse::<isize>() {
+        Ok(id) => id,
+        Err(_) => -1,
+    };
+
+    if id > -1 {
+        let index: isize = match bills
+            .iter()
+            .position(|item| item.id == id.try_into().unwrap())
+        {
+            Some(_index) => _index.try_into().unwrap(),
+            None => -1,
+        };
+
+        if index > -1 {
+            let _ = &bills.remove(index.try_into().unwrap());
+            Ok(true)
+        } else {
+            Err("No index".to_string())
+        }
+    } else {
+        Err("Invalid input".to_string())
+    }
 }
 
 pub fn display_menu() {
