@@ -32,7 +32,7 @@ pub fn add(len: usize) -> Bill {
 
     let amount: f64 = buffer_amout.trim().parse::<f64>().unwrap();
 
-    let id = (len + 1);
+    let id = len + 1;
 
     Bill::new(
         id.try_into().unwrap(),
