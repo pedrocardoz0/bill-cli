@@ -1,4 +1,4 @@
-use bill::{add, display_menu, edit, get_input, remove, Bill};
+use bill::{add, display_menu, edit, get_input, remove, total_bill, Bill};
 use std::{thread, time::Duration};
 
 fn main() {
@@ -39,6 +39,15 @@ fn main() {
             match edit(&mut bills) {
                 Ok(_) => println!("Edited!"),
                 Err(e) => println!("Not edited! {:?}", e),
+            };
+
+            thread::sleep(Duration::from_millis(4000));
+        }
+
+        if input_choice == 5 {
+            match total_bill(&mut bills) {
+                Some(result) => println!("Total bill: {:?}", result),
+                None => println!("Faild to get total bill!"),
             };
 
             thread::sleep(Duration::from_millis(4000));

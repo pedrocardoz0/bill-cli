@@ -135,6 +135,12 @@ pub fn get_input() -> Result<u32, String> {
     }
 }
 
+pub fn total_bill(bills: &mut Vec<Bill>) -> Option<f64> {
+    let sum: f64 = bills.iter().map(|bill| bill.amount).sum();
+
+    Some(sum)
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
